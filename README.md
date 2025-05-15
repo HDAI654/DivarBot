@@ -13,6 +13,11 @@ This is a Telegram bot built with Python that helps users track and manage their
 
 ### 1. Install Dependencies
 
+```bash
+git clone https://github.com/HDAI654/DivarBot.git
+cd DivarBot
+```
+
 Make sure you have Python 3.8+ installed. Then install dependencies using:
 
 ```bash
