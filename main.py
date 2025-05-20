@@ -1,14 +1,15 @@
 import json
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, CallbackQueryHandler, ContextTypes, filters
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup
+from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, CallbackQueryHandler, ContextTypes, filters, ConversationHandler
 from logger import logger
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
 
+TITLE, LINK_PAGE, LINK_AD = range(3)
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-user_states = {} # State of users
+PORT = int(os.getenv("PORT"))
 DATA_FILE = 'data.json'
 
 def load_titles():
@@ -28,27 +29,88 @@ def save_titles(data):
         return False
 
 # handlers
+
+# Start command
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
-        await update.message.reply_text("The bot is starting")
+        keyboard = [
+            ['/add', '/delete'],
+            ['/my_ads']
+        ]
+        reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
+
+        await update.message.reply_text(
+            "به ربات دیوار خوش آمدید! ",
+            reply_markup=reply_markup
+        )
     except Exception as e:
         logger.error(f"Error in start handler function: {e}")
         return
 
-async def handle_add_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+# Add command
+async def add_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         user_id = str(update.effective_user.id)
-        user_states[user_id] = 'ADD'
-        msg = """
-        لطفاً عنوان آگهی خود را با فرمت زیر ارسال کنید        
-        عنوان آگهی - لینک صفحه آگهی - لینک صفحه دیوار
-
-        """
-        await update.message.reply_text(msg)
+        await update.message.reply_text("""عملیات افزودن آگهی را شروع شده است.
+برای لغو عملیات افزودن آگهی، /cancel را ارسال کنید.
+                                        
+                                        لطفاً عنوان آگهی را وارد کنید:""")
+        return TITLE
     except Exception as e:
-        logger.error(f"Error in handle_add_cmd function: {e}")
-        return
+        logger.error(f"Error in add_start function: {e}")
+        await update.message.reply_text("عملیات افزودن با خطا مواجه شد !")
+        return ConversationHandler.END
 
+async def add_title(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    try:
+        context.user_data['title'] = update.message.text.strip()
+        await update.message.reply_text("لینک صفحه دیوار را وارد کنید:")
+        return LINK_PAGE
+    except Exception as e:
+        logger.error(f"Error in add_title function: {e}")
+        await update.message.reply_text("عملیات افزودن با خطا مواجه شد !")
+        return ConversationHandler.END
+
+async def add_link_page(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    try:
+        context.user_data['link_page'] = update.message.text.strip()
+        await update.message.reply_text("لینک صفحه آگهی را وارد کنید:")
+        return LINK_AD
+    except Exception as e:
+        logger.error(f"Error in add_link_page function: {e}")
+        await update.message.reply_text("عملیات افزودن با خطا مواجه شد !")
+        return ConversationHandler.END
+
+async def add_link_ad(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    try:
+        user_id = str(update.effective_user.id)
+        context.user_data['link_ad'] = update.message.text.strip()
+
+        title = context.user_data['title']
+        link_page = context.user_data['link_page']
+        link_ad = context.user_data['link_ad']
+
+        data = load_titles()
+        data.setdefault(user_id, []).append([link_page, link_ad, title])
+        save_titles(data)
+
+        await update.message.reply_text(f'آگهی "{title}" با موفقیت ذخیره شد.')
+        return ConversationHandler.END
+    except Exception as e:
+        logger.error(f"Error in add_link_ad function: {e}")
+        await update.message.reply_text("عملیات افزودن با خطا مواجه شد !")
+        return ConversationHandler.END
+
+async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    try:
+        await update.message.reply_text("عملیات افزودن آگهی لغو شد.")
+        return ConversationHandler.END
+    except Exception as e:
+        logger.error(f"Error in cancel function: {e}")
+        await update.message.reply_text("عملیات با خطا مواجه شد !")
+        return ConversationHandler.END
+
+# Delete command
 async def handle_delete_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         user_id = str(update.effective_user.id)
@@ -58,11 +120,12 @@ async def handle_delete_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return await update.message.reply_text('عنوانی برای حذف وجود ندارد.')
         buttons = [[InlineKeyboardButton(t, callback_data=f'delete|{t}')] for t in titles]
         markup = InlineKeyboardMarkup(buttons)
-        await update.message.reply_text('عنوان مورد نظر را انتخاب کنید:', reply_markup=markup)
+        await update.message.reply_text('عنوان مورد نظر را برای حذف انتخاب کنید:', reply_markup=markup)
     except Exception as e:
         logger.error(f"Error in handle_delete_cmd function: {e}")
         return
 
+# Show my ads command
 async def handle_my_ads_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         user_id = str(update.effective_user.id)
@@ -77,6 +140,7 @@ async def handle_my_ads_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
         logger.error(f"Error in handle_delete_cmd function: {e}")
         return
 
+# Callback handler
 async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         query = update.callback_query
@@ -99,21 +163,7 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
-        user_id = str(update.effective_user.id)
-        state = user_states.get(user_id)
-        if state == 'ADD':
-            title = update.message.text
-            title = [s.strip() for s in title.split('-')]
-            if len(title) != 3:
-                await update.message.reply_text('فرمت آگهی نادرست است. لطفاً دوباره امتحان کنید.')
-                return
-            data = load_titles()
-            data.setdefault(user_id, []).append(title)
-            save_titles(data)
-            user_states[user_id] = None
-            await update.message.reply_text(f'عنوان "{title[2]}" ذخیره شد.')
-        else:
-            await update.message.reply_text('عملیات مورد نظر یافت نشد.')
+       await update.message.reply_text('درخواست شما معتبر نیست !')
     except Exception as e:
         logger.error(f"Error in handle_message function: {e}")
         return
@@ -126,9 +176,9 @@ async def task(context: ContextTypes.DEFAULT_TYPE):
             try:
                 await context.bot.send_message(chat_id=int(user_id), text='پیام زمان‌بندی‌شده: این اعلان هر یک ساعت ارسال می‌شود.')
             except Exception as e:
-                print(f"خطا در ارسال پیام زمان‌بندی‌شده به {user_id}: {e}")
+                logger.info(f"خطا در ارسال پیام زمان‌بندی‌شده به {user_id}: {e}")
     except Exception as e:
-        print(f"Error in task function: {e}")
+        logger.error(f"Error in task function: {e}")
 
 
 def main():
@@ -137,7 +187,18 @@ def main():
 
         # set handlers
         application.add_handler(CommandHandler('start', start))
-        application.add_handler(CommandHandler('add', handle_add_cmd))
+        
+        conv_handler = ConversationHandler(
+            entry_points=[CommandHandler('add', add_start)],
+            states={
+                TITLE: [MessageHandler(filters.TEXT & ~filters.COMMAND, add_title)],
+                LINK_PAGE: [MessageHandler(filters.TEXT & ~filters.COMMAND, add_link_page)],
+                LINK_AD: [MessageHandler(filters.TEXT & ~filters.COMMAND, add_link_ad)],
+            },
+            fallbacks=[CommandHandler('cancel', cancel)],
+        )
+
+        application.add_handler(conv_handler)
         application.add_handler(CommandHandler('delete', handle_delete_cmd))
         application.add_handler(CommandHandler('my_ads', handle_my_ads_cmd))
         application.add_handler(CallbackQueryHandler(handle_callback))
@@ -151,12 +212,13 @@ def main():
         # run bot
         application.run_webhook(
             listen='127.0.0.1',
-            port=5000,
+            port=PORT,
             url_path=BOT_TOKEN,
             webhook_url=f'https://diwar.loca.lt/{BOT_TOKEN}',
         )
     except Exception as e:
-        print(f"Error in main function: {e}")
+        logger.error(f"Error in main function: {e}")
 
 if __name__ == '__main__':
+    logger.info("Bot is starting...")
     main()
