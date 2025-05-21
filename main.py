@@ -4,6 +4,7 @@ from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, Cal
 from logger import logger
 import os
 from dotenv import load_dotenv
+from scraper import scrape_data
 
 load_dotenv()
 
@@ -56,6 +57,7 @@ async def add_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                                         
                                         لطفاً عنوان آگهی را وارد کنید:""")
         return TITLE
+    
     except Exception as e:
         logger.error(f"Error in add_start function: {e}")
         await update.message.reply_text("عملیات افزودن با خطا مواجه شد !")
@@ -66,6 +68,7 @@ async def add_title(update: Update, context: ContextTypes.DEFAULT_TYPE):
         context.user_data['title'] = update.message.text.strip()
         await update.message.reply_text("لینک صفحه دیوار را وارد کنید:")
         return LINK_PAGE
+    
     except Exception as e:
         logger.error(f"Error in add_title function: {e}")
         await update.message.reply_text("عملیات افزودن با خطا مواجه شد !")
@@ -76,6 +79,7 @@ async def add_link_page(update: Update, context: ContextTypes.DEFAULT_TYPE):
         context.user_data['link_page'] = update.message.text.strip()
         await update.message.reply_text("لینک صفحه آگهی را وارد کنید:")
         return LINK_AD
+    
     except Exception as e:
         logger.error(f"Error in add_link_page function: {e}")
         await update.message.reply_text("عملیات افزودن با خطا مواجه شد !")
@@ -96,6 +100,7 @@ async def add_link_ad(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         await update.message.reply_text(f'آگهی "{title}" با موفقیت ذخیره شد.')
         return ConversationHandler.END
+    
     except Exception as e:
         logger.error(f"Error in add_link_ad function: {e}")
         await update.message.reply_text("عملیات افزودن با خطا مواجه شد !")
@@ -173,10 +178,36 @@ async def task(context: ContextTypes.DEFAULT_TYPE):
     try:
         data = load_titles()
         for user_id, ads in data.items():
-            try:
-                await context.bot.send_message(chat_id=int(user_id), text='پیام زمان‌بندی‌شده: این اعلان هر یک ساعت ارسال می‌شود.')
-            except Exception as e:
-                logger.info(f"خطا در ارسال پیام زمان‌بندی‌شده به {user_id}: {e}")
+            for ad in ads:
+                
+                link_page, link_ad, title = ad
+                try:
+                    res = await scrape_data(link_page, link_ad)
+                    
+                    if res == True:
+                        await context.bot.send_message(chat_id=user_id, text=f"""آگهی \'{title}\' در 5 آگهی اول سایت قرار دارد
+
+لینک آگهی
+{link_ad}
+
+لینک صفحه 
+{link_page}""")
+
+                    elif res == "NOHTML":
+                        await context.bot.send_message(chat_id=user_id, text=f"""ERROR
+در عملیات پیدا کردن آگهی \'{title}\' مشکلی پیش آمده
+
+error  : آدرس صفحه  {link_page} مشکل دارد""")
+                    
+                    else:
+                        await context.bot.send_message(chat_id=user_id, text=f"""ERROR
+در عملیات پیدا کردن آگهی \'{title}\' مشکلی پیش آمده""")
+                
+                except Exception as e:
+                    logger.error(f"Error in task function in loop: {e}")
+                    await context.bot.send_message(chat_id=user_id, text=f"""ERROR
+در عملیات پیدا کردن آگهی \'{title}\' مشکلی پیش آمده""")
+                                  
     except Exception as e:
         logger.error(f"Error in task function: {e}")
 
@@ -216,6 +247,7 @@ def main():
             url_path=BOT_TOKEN,
             webhook_url=f'https://diwar.loca.lt/{BOT_TOKEN}',
         )
+    
     except Exception as e:
         logger.error(f"Error in main function: {e}")
 

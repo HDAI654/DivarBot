@@ -1,0 +1,43 @@
+2025-05-21 16:25:38,080 - INFO - Bot is starting...
+2025-05-21 16:25:51,894 - ERROR - Error in task function: too many values to unpack (expected 3)
+2025-05-21 16:26:01,878 - ERROR - Error in task function: too many values to unpack (expected 3)
+2025-05-21 16:27:31,871 - ERROR - Error in task function: too many values to unpack (expected 3)
+2025-05-21 16:27:41,884 - ERROR - Error in task function: too many values to unpack (expected 3)
+2025-05-21 16:30:00,615 - INFO - Bot is starting...
+2025-05-21 16:30:15,346 - ERROR - Error checking CSR: It looks like you are using Playwright Sync API inside the asyncio loop.
+Please use the Async API instead.
+2025-05-21 16:30:25,283 - ERROR - Error checking CSR: It looks like you are using Playwright Sync API inside the asyncio loop.
+Please use the Async API instead.
+2025-05-21 16:30:36,203 - ERROR - Error checking CSR: It looks like you are using Playwright Sync API inside the asyncio loop.
+Please use the Async API instead.
+2025-05-21 16:30:44,834 - ERROR - Error checking CSR: It looks like you are using Playwright Sync API inside the asyncio loop.
+Please use the Async API instead.
+2025-05-21 16:30:44,850 - WARNING - No ads found on page
+2025-05-21 16:33:04,517 - INFO - Bot is starting...
+2025-05-21 16:36:39,156 - INFO - Bot is starting...
+2025-05-21 16:36:45,560 - ERROR - Error checking CSR: It looks like you are using Playwright Sync API inside the asyncio loop.
+Please use the Async API instead.
+2025-05-21 16:36:45,606 - ERROR - Error in task function in loop: 'property' object has no attribute 'send_message'
+2025-05-21 16:36:45,606 - ERROR - Error in task function: 'property' object has no attribute 'send_message'
+2025-05-21 16:36:45,618 - ERROR - Error in main function: There is no current event loop in thread 'MainThread'.
+2025-05-21 16:38:49,458 - INFO - Bot is starting...
+2025-05-21 16:41:32,829 - INFO - Bot is starting...
+2025-05-21 16:41:48,060 - ERROR - Error checking CSR: It looks like you are using Playwright Sync API inside the asyncio loop.
+Please use the Async API instead.
+2025-05-21 16:41:50,521 - ERROR - Error fetching or rendering page: Invalid URL 'تیتی': No scheme supplied. Perhaps you meant https://تیتی?
+2025-05-21 16:55:31,445 - INFO - Bot is starting...
+2025-05-21 16:55:45,078 - ERROR - Error fetching or rendering page: aiodns needs a SelectorEventLoop on Windows. See more: https://github.com/saghul/aiodns/issues/86
+2025-05-21 16:55:55,022 - ERROR - Error fetching or rendering page: aiodns needs a SelectorEventLoop on Windows. See more: https://github.com/saghul/aiodns/issues/86
+2025-05-21 16:56:05,013 - ERROR - Error fetching or rendering page: aiodns needs a SelectorEventLoop on Windows. See more: https://github.com/saghul/aiodns/issues/86
+2025-05-21 17:01:59,898 - INFO - Bot is starting...
+2025-05-21 17:02:38,275 - ERROR - Error checking CSR: Page.goto: net::ERR_ABORTED at https://divar.ir/s/arak/mobile-phones
+Call log:
+  - navigating to "https://divar.ir/s/arak/mobile-phones", waiting until "load"
+
+2025-05-21 17:05:02,369 - INFO - Bot is starting...
+2025-05-21 17:05:06,106 - ERROR - Error in main function: JobQueue.run_repeating() got an unexpected keyword argument 'max_instances'
+2025-05-21 17:05:47,981 - INFO - Bot is starting...
+2025-05-21 17:07:58,154 - ERROR - Error checking CSR: Page.goto: Timeout 30000ms exceeded.
+Call log:
+  - navigating to "https://divar.ir/s/arak/mobile-phones", waiting until "load"
+

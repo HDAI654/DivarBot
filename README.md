@@ -3,8 +3,6 @@
 This is a Telegram bot built with Python that helps users track and manage their advertisements on the Divar website. Users can add, view, and delete their ad titles via simple Telegram commands. The bot also sends scheduled hourly notifications.
 
 ## Features
-
-- Add ads using a specific format.
 - View the list of your current ads.
 - Delete ads via interactive Telegram buttons.
 - Scheduled hourly reminders for active users.
