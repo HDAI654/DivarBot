@@ -33,7 +33,6 @@ This will generate a public webhook URL like:
 ```bash
 https://diwar.loca.lt/
 ```
-    Important: Make sure this matches the webhook URL configured in the main.py.
 
 ### 3. Run the Bot
 Now run the bot:
