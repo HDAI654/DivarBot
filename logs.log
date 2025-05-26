@@ -1,0 +1,81 @@
+2025-05-26 15:08:44,887 - INFO - Bot is starting...
+2025-05-26 15:17:51,702 - INFO - Bot is starting...
+2025-05-26 15:21:15,383 - INFO - Bot is starting...
+2025-05-26 15:26:50,249 - ERROR - Error in handle_callback function: Message is not modified: specified new message content and reply markup are exactly the same as a current content and reply markup of the message
+2025-05-26 15:36:40,715 - INFO - Bot is starting...
+2025-05-26 15:37:15,301 - ERROR - Error checking CSR: BrowserType.launch: Executable doesn't exist at C:\Users\hdaic\AppData\Local\ms-playwright\chromium_headless_shell-1169\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     playwright install                                     ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+2025-05-26 15:37:22,218 - ERROR - Error checking CSR: BrowserType.launch: Executable doesn't exist at C:\Users\hdaic\AppData\Local\ms-playwright\chromium_headless_shell-1169\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     playwright install                                     ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+2025-05-26 15:37:30,453 - ERROR - Error checking CSR: BrowserType.launch: Executable doesn't exist at C:\Users\hdaic\AppData\Local\ms-playwright\chromium_headless_shell-1169\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     playwright install                                     ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+2025-05-26 15:37:30,498 - WARNING - No ads found on page
+2025-05-26 15:37:35,758 - ERROR - Error checking CSR: BrowserType.launch: Executable doesn't exist at C:\Users\hdaic\AppData\Local\ms-playwright\chromium_headless_shell-1169\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     playwright install                                     ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+2025-05-26 15:37:35,769 - WARNING - No ads found on page
+2025-05-26 15:37:49,828 - ERROR - Error checking CSR: BrowserType.launch: Executable doesn't exist at C:\Users\hdaic\AppData\Local\ms-playwright\chromium_headless_shell-1169\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     playwright install                                     ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+2025-05-26 15:37:49,838 - WARNING - No ads found on page
+2025-05-26 15:40:35,782 - INFO - Bot is starting...
+2025-05-26 15:41:34,762 - ERROR - Error checking CSR: BrowserType.launch: Executable doesn't exist at C:\Users\hdaic\AppData\Local\ms-playwright\chromium_headless_shell-1169\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     playwright install                                     ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+2025-05-26 15:47:01,476 - INFO - Bot is starting...
+2025-05-26 15:49:56,771 - ERROR - Error checking CSR: Page.goto: Target page, context or browser has been closed
+Call log:
+  - navigating to "https://divar.ir/s/arak/mobile-tablet-accessories", waiting until "load"
+
+2025-05-26 15:50:43,883 - INFO - Bot is starting...
+2025-05-26 15:55:05,111 - ERROR - Error checking CSR: Page.goto: net::ERR_NETWORK_CHANGED at https://divar.ir/s/arak/mobile-tablet-accessories
+Call log:
+  - navigating to "https://divar.ir/s/arak/mobile-tablet-accessories", waiting until "load"
+
+2025-05-26 15:59:32,052 - INFO - Bot is starting...
+2025-05-26 16:14:19,927 - INFO - Bot is starting...
+2025-05-26 16:14:50,974 - INFO - Bot is starting...
+2025-05-26 16:15:47,387 - ERROR - Error checking CSR: Page.goto: Target page, context or browser has been closed
+Call log:
+  - navigating to "https://divar.ir/s/arak/mobile-tablet-accessories", waiting until "load"
+
+2025-05-26 16:16:01,683 - INFO - Bot is starting...

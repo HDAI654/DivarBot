@@ -57,6 +57,16 @@ You can see the performance of the bot in the following video:
 
 https://drive.google.com/file/d/1NjV8XMMlUxAFDHGk2tB2KWK3c6ZKE0R9/view?usp=sharing
 
+## Important Note
+You must create the .env file in root of project
+with this format :
+```bash
+BOT_TOKEN=your_bot_token
+PORT=the_port_that_you_run_localtunnel
+INTERVAL=the_scraper_interval_in_seconds
+DATA_FILE=address_of_json_file_for_saving_data
+AD_THRESHOLD=the_threshold_of_ads_that_you_want_to_get_warning
+```
 
 ## LICENSE
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

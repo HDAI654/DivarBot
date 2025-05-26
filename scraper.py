@@ -58,7 +58,7 @@ async def is_CSR(address):
         return False
 
 
-async def scrape_data(page_address, ad_address):
+async def scrape_data(page_address, ad_address, threshold):
     try:
         # Fetch the HTML content
         html_content = await GetHTML(page_address)
@@ -69,7 +69,7 @@ async def scrape_data(page_address, ad_address):
         soup = BeautifulSoup(html_content, 'html.parser')
         
         # get the links of the first 5 ads on the page
-        soup_ads = soup.find_all("a", class_="unsafe-kt-post-card__action", href=True)[:5]
+        soup_ads = soup.find_all("a", class_="unsafe-kt-post-card__action", href=True)[:threshold]
         if not soup_ads:
             logger.warning("No ads found on page")
             return False
@@ -80,9 +80,12 @@ async def scrape_data(page_address, ad_address):
 
         # Extract ID of the received ad
         my_ad_id = ad_address.rstrip('/').split("/")[-1]
+        
+        if my_ad_id not in ad_ids:
+            return "NOTIN_THRESHOLD"
 
         # Check if the received ad ID is in the list of ad IDs
-        return my_ad_id in ad_ids
+        return ad_ids.index(my_ad_id)
 
     except Exception as e:
         logger.error(f"Error scraping data: {e}")
