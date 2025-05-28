@@ -189,53 +189,67 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def task(context: ContextTypes.DEFAULT_TYPE):
     try:
         data = tls.load_titles()
-        for user_id, ads in data.items():
-            for ad in ads:        
-                link_page, link_ad, title, status = ad
-                
-                res = await scrape_data(link_page, link_ad, AD_THRESHOLD)
-                        
-                if res == False:
-                    await context.bot.send_message(chat_id=user_id,text=f"""ERROR
-در عملیات پیدا کردن آگهی \'{title}\' مشکلی پیش آمده""")
-
-                elif res == "NOHTML":
-                    await context.bot.send_message(chat_id=user_id,text=f"""ERROR
-در عملیات پیدا کردن آگهی \'{title}\' مشکلی پیش آمده
-
-error  : آدرس صفحه  {link_page} مشکل دارد""")
-                
-                elif res == "NOTIN_THRESHOLD":
-                    await context.bot.send_message(chat_id=user_id, text=f"""آگهی  \'{title}\' شما در {AD_THRESHOLD} تا آگهی اول صفحه آرشیو نیست""")
-                
-                # the res is index of ad     
-                else:
-                    ads[ads.index(ad)] = [link_page, link_ad, title, res]
-                    data[user_id] = ads
-                    tls.save_titles(data)
-                    if status != res:
-                        w = "بالا" if status > res else "پایین"
-                        await context.bot.send_message(chat_id=user_id, text=f"""آگهی \'{title}\' در 5 آگهی اول سایت قرار دارد
-اما آگهی شما نسبت به گدشته {w} تر رفته
-
-لینک آگهی
-{link_ad}
-
-لینک آرشیو 
-{link_page}""")
+        if data != {} and data != False:
+            for user_id, ads in data.items():
+                for ad in ads:        
+                    link_page, link_ad, title, status = ad
                     
+                    res = await scrape_data(link_page, link_ad, AD_THRESHOLD)
+                            
+                    if res == False:
+                        await context.bot.send_message(chat_id=user_id,text=f"""ERROR
+    در عملیات پیدا کردن آگهی \'{title}\' مشکلی پیش آمده""")
+
+                    elif res == "NOHTML":
+                        if status != False:
+                            await context.bot.send_message(chat_id=user_id,text=f"""ERROR
+        در عملیات پیدا کردن آگهی \'{title}\' مشکلی پیش آمده
+
+        error  : آدرس صفحه  {link_page} مشکل دارد""")
+                            
+                            ads[ads.index(ad)] = [link_page, link_ad, title, False]
+                            data[user_id] = ads
+                            tls.save_titles(data)
                     
+                    # the res is index of ad     
                     else:
-                        await context.bot.send_message(chat_id=user_id, text=f"""آگهی \'{title}\' در 5 آگهی اول سایت قرار دارد
-رتبه:  {res}
+                        # the first review
+                        if status == None or status == False:
+                            
+                        
+                            if res < AD_THRESHOLD:
+                                await context.bot.send_message(chat_id=user_id, text=f"""آگهی \'{title}\' در {AD_THRESHOLD} آگهی اول سایت قرار دارد
+        لینک آگهی
+        {link_ad}
 
-لینک آگهی
-{link_ad}
+        لینک آرشیو 
+        {link_page}""")
+                            
+                            
+                            else:
+                                await context.bot.send_message(chat_id=user_id, text=f"""آگهی \'{title}\' در {AD_THRESHOLD} آگهی اول سایت قرار ندارد
+        لینک آگهی
+        {link_ad}
 
-لینک آرشیو 
-{link_page}""")
-        
-        
+        لینک آرشیو 
+        {link_page}""")
+                        
+                        else:
+                            if status != res and res >= AD_THRESHOLD :
+                                await context.bot.send_message(chat_id=user_id, text=f"""آگهی \'{title}\' در {AD_THRESHOLD} آگهی اول سایت قرار ندارد
+        آگهی شما نسبت به گدشته پایین تر رفته
+
+        لینک آگهی
+        {link_ad}
+
+        لینک آرشیو 
+        {link_page}""")
+                                
+                        
+                        ads[ads.index(ad)] = [link_page, link_ad, title, res]
+                        data[user_id] = ads
+                        tls.save_titles(data)
+            
             
     except Exception as e:
         logger.error(f"Error in task function: {e}")

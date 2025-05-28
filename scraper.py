@@ -82,7 +82,8 @@ async def scrape_data(page_address, ad_address, threshold):
         my_ad_id = ad_address.rstrip('/').split("/")[-1]
         
         if my_ad_id not in ad_ids:
-            return "NOTIN_THRESHOLD"
+            n = threshold + 1
+            return int(n)
 
         # Check if the received ad ID is in the list of ad IDs
         return ad_ids.index(my_ad_id)

@@ -79,3 +79,16 @@ Call log:
   - navigating to "https://divar.ir/s/arak/mobile-tablet-accessories", waiting until "load"
 
 2025-05-26 16:16:01,683 - INFO - Bot is starting...
+2025-05-28 16:02:00,241 - INFO - Bot is starting...
+2025-05-28 16:04:03,670 - INFO - Bot is starting...
+2025-05-28 16:04:29,935 - ERROR - Error fetching or rendering page: Request URL is missing an 'http://' or 'https://' protocol.
+2025-05-28 16:05:34,245 - INFO - Bot is starting...
+2025-05-28 16:08:01,820 - ERROR - Error checking CSR: Page.goto: Timeout 30000ms exceeded.
+Call log:
+  - navigating to "https://divar.ir/s/arak/electronic-devices", waiting until "load"
+
+2025-05-28 16:08:32,407 - INFO - Bot is starting...
+2025-05-28 16:09:41,234 - ERROR - Error checking CSR: Page.goto: Timeout 30000ms exceeded.
+Call log:
+  - navigating to "https://divar.ir/s/arak/electronic-devices", waiting until "load"
+
